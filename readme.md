@@ -14,6 +14,8 @@ Spring Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) app
 git clone https://github.com/spring-projects/spring-petclinic.git
 cd spring-petclinic
 ./mvnw package
+# To skip the tests
+# ./mvnw package -DskipTests
 java -jar target/*.jar
 ```
 
@@ -35,6 +37,19 @@ There is no `Dockerfile` in this project. You can build a container image (if yo
 
 ```bash
 ./mvnw spring-boot:build-image
+# To skip the tests
+# ./mvnw spring-boot:build-image -DskipTests
+```
+
+Then run the application with the following command
+```bash
+# With default database
+docker run -d -p 8080:8080 spring-petclinic:3.2.0-SNAPSHOT
+
+# With local database
+docker run -e MYSQL_URL='jdbc:mysql://localhost:3307/petclinic' -e MYSQL_USER='petclinic' -e MYSQL_PASS='dummy' -p 8080:8080 docker.io/library/spring-petclinic:3.2.0-SNAPSHOT
+# With External database
+docker run -e MYSQL_URL='jdbc:mysql://petclinic.cluster-cnkuuusukzdz.us-east-1.rds.amazonaws.com/petclinic' -e MYSQL_USER='petclinic' -e MYSQL_PASS='dummy' -p 8080:8080 spring-petclinic:3.2.0-SNAPSHOT
 ```
 
 ## In case you find a bug/suggested improvement for Spring Petclinic
